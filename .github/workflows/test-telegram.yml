@@ -33,7 +33,12 @@ jobs:
               "text": text
           }).encode()
 
-          with urllib.request.urlopen(url, data=data, timeout=20) as response:
-              print("Messaggio inviato:", response.status)
-          PY
+          
+try:
+    with urllib.request.urlopen(url, data=data, timeout=20) as response:
+        print("Messaggio inviato:", response.status)
+except urllib.error.HTTPError as e:
+    print("Errore Telegram:", e.read().decode())
+    raise SystemExit(1)
+    
           
