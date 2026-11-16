@@ -6,7 +6,7 @@ import urllib.request
 from pathlib import Path
 from TikTokLive import TikTokLiveClient
 
-USERNAME = "Il__CoBra"
+USERNAME = "il__cobra"
 STATE_FILE = Path("tiktok_state.json")
 
 def send_telegram():
@@ -16,7 +16,7 @@ def send_telegram():
         "🔴 IL COBRA È LIVE SU TIKTOK! 🐍\n\n"
         "🔥 Ragazzi, siamo in diretta!\n"
         "🎮 Vi aspetto tutti in live!\n\n"
-        "📱 https://www.tiktok.com/@Il__CoBra/live"
+        "📱 https://www.tiktok.com/@il__cobra/live"
     )
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     data = urllib.parse.urlencode({"chat_id": chat_id, "text": message}).encode()
