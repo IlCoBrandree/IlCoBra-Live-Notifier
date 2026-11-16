@@ -15,30 +15,31 @@ jobs:
         run: |
           python - <<'PY'
           import os
+          import json
           import urllib.parse
           import urllib.request
+          import urllib.error
 
           token = os.environ["BOT_TOKEN"]
           chat_id = os.environ["CHAT_ID"]
 
-          text = (
+          message = (
               "🐍 TEST NOTIFICHE IL COBRA\n\n"
-              "✅ Collegamento Telegram funzionante!\n"
-              "📱 Le notifiche TikTok sono in configurazione."
+              "✅ Collegamento Telegram funzionante!"
           )
 
           url = f"https://api.telegram.org/bot{token}/sendMessage"
           data = urllib.parse.urlencode({
               "chat_id": chat_id,
-              "text": text
+              "text": message
           }).encode()
 
-          
-         try:
-         with urllib.request.urlopen(url, data=data, timeout=20) as response:
-         print("Messaggio inviato:", response.status)
-         except urllib.error.HTTPError as e:
-         print("Errore Telegram:", e.read().decode())
-         raise SystemExit(1)
-    
+          try:
+              with urllib.request.urlopen(url, data=data, timeout=20) as r:
+                  print("Messaggio inviato:", r.status)
+          except urllib.error.HTTPError as e:
+              result = json.loads(e.read().decode())
+              print("Errore Telegram:", result.get("description"))
+              raise SystemExit(1)
+          PY
           
