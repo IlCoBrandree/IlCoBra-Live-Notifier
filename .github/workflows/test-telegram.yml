@@ -1,0 +1,39 @@
+
+name: Test Telegram IlCoBra
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invia messaggio di prova
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python - <<'PY'
+          import os
+          import urllib.parse
+          import urllib.request
+
+          token = os.environ["BOT_TOKEN"]
+          chat_id = os.environ["CHAT_ID"]
+
+          text = (
+              "🐍 TEST NOTIFICHE IL COBRA\n\n"
+              "✅ Collegamento Telegram funzionante!\n"
+              "📱 Le notifiche TikTok sono in configurazione."
+          )
+
+          url = f"https://api.telegram.org/bot{token}/sendMessage"
+          data = urllib.parse.urlencode({
+              "chat_id": chat_id,
+              "text": text
+          }).encode()
+
+          with urllib.request.urlopen(url, data=data, timeout=20) as response:
+              print("Messaggio inviato:", response.status)
+          PY
+          
